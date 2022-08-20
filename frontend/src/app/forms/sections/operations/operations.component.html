@@ -1,0 +1,21 @@
+<table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Fecha</th>
+        <th scope="col">Egreso</th>
+        <th scope="col">Ingreso</th>
+        <th scope="col">Tipo de Movimiento</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let operation of operations">
+        <td>{{operation.fecha| date: 'dd/MM/yyyy hh:mm a' }}</td>
+        <td>{{operation.monedaOrigen}} - {{operation.cantidadOrigen}} </td>
+        <td>{{operation.monedaDestino}} - {{operation.cantidadDestino}}</td>        
+        <td>{{operation.tipoMovimiento}}</td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+
