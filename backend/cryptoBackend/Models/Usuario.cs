@@ -47,12 +47,6 @@ namespace cryptoBackend.Models
 
         public Usuario()
         {
-        }
-
-        // Función de ejemplo
-        public void Saludar ()
-        {
-
-        }
+        }        
     }
 }

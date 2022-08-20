@@ -13,7 +13,7 @@ namespace cryptoBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UsuarioController : ApiController
     {
-        cryptomarcaEntities db;
+        cryptomarcaEntities db = new cryptomarcaEntities();
         FuncionesComunes funciones= new FuncionesComunes();
 
         // GET: api/Usuario
@@ -21,16 +21,14 @@ namespace cryptoBackend.Controllers
         {
             Respuesta oR = new Respuesta();
             oR.status = 0;
+            
 
             try
-            {
-                using (db = new cryptomarcaEntities())
-                {
-                    List<usuarios> lusuarios = db.usuarios.ToList();
-                    oR.status = 1;
-                    oR.data = lusuarios;
-                    return oR;
-                }
+            {                
+                List<usuarios> lusuarios = db.usuarios.ToList();
+                oR.status = 1;
+                oR.data = lusuarios;
+                return oR;                
             }
             catch (Exception e)
             {
@@ -38,6 +36,7 @@ namespace cryptoBackend.Controllers
                 oR.message = "Ocurrió un problema en el servidor.";
                 return oR;
             }
+            
         }
 
         // GET: api/Usuario/5

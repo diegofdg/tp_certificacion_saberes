@@ -76,7 +76,7 @@
           <Property Name="dni" Type="varchar" MaxLength="12" Nullable="false" />
           <Property Name="fk_provincia" Type="bigint" Nullable="false" />
           <Property Name="fk_banco" Type="bigint" Nullable="false" />
-          <Property Name="cbu" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="cbu" Type="varchar" MaxLength="22" Nullable="false" />
           <Property Name="fechaNacimiento" Type="datetime" Nullable="false" />
           <Property Name="activo" Type="bit" Nullable="false" />
         </EntityType>
@@ -315,7 +315,7 @@
           <Property Name="dni" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
           <Property Name="fk_provincia" Type="Int64" Nullable="false" />
           <Property Name="fk_banco" Type="Int64" Nullable="false" />
-          <Property Name="cbu" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="cbu" Type="String" Nullable="false" MaxLength="22" FixedLength="false" Unicode="false" />
           <Property Name="fechaNacimiento" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="activo" Type="Boolean" Nullable="false" />
         </EntityType>

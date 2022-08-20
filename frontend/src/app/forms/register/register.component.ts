@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
       dni: ['', [Validators.required, Validators.minLength(8)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       repitePassword: ['', [Validators.required]],
-      cbu: ['', [Validators.required, Validators.minLength(20)]],
+      cbu: ['', [Validators.required, Validators.minLength(22)]],
       banco: ['', [Validators.required]],
       provincia: ['', [Validators.required]],
       fechaNacimiento: ['', [Validators.required]]

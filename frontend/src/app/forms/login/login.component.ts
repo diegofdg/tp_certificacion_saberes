@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
     this.loginService.login(email, password)
       .subscribe({
-        next: (responseOK) => {         
+        next: (responseOK: any) => {         
           console.log(responseOK);
           if(responseOK.email != ""){    
             const currentUser = {
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
           }
           
        },
-       error: (responseFail) => {         
+       error: (responseFail: any) => {         
           console.log('Ocurrio error con tu email o password');  
           this.spinner = false;
           this.errorSession = true;       
