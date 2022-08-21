@@ -213,7 +213,6 @@
     <Compile Include="Models\Banco.cs" />
     <Compile Include="Models\Operacion.cs" />
     <Compile Include="Models\FuncionesComunes.cs" />
-    <Compile Include="Models\GestorUsuario.cs" />
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\Respuesta.cs" />
     <Compile Include="Models\Usuario.cs" />
