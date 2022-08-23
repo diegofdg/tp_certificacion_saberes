@@ -51,11 +51,8 @@ export class OperationsComponent implements OnInit {
   wallets: any;
   coins: any;
 
-  constructor() {
-  }
+  constructor() { }
 
-  ngOnInit(): void {
-    //console.log("aaaa",this.operations)
-  }
+  ngOnInit(): void { }
  
 }

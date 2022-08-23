@@ -42,7 +42,6 @@ export class DashboardComponent implements OnInit {
   }
 
   walletAll(walletResponse:boolean) {
-    //console.log(walletResponse);
     this.walletServ.getBilleteraUsuario(this.idUsuario).subscribe(data=>{ 
     this.wallet=data;
     

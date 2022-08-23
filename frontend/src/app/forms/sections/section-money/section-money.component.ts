@@ -9,11 +9,8 @@ export class SectionMoneyComponent implements OnInit {
   
   @Input() money={cantidad:0,moneda:"",idBilletera:0,idMoneda:0}
   
-  constructor() {
-     
-  }
+  constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }

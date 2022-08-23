@@ -50,15 +50,20 @@ export class OperationPanelComponent implements OnInit {
     this.valueCalc=0;
     this.form.get('quantity').setValue(0);
     if(valor<0) return;
+
     this.classSelect=this.listMovementTypes[valor]["descripcion"].toLowerCase();
-    if(this.classSelect=="transferencia"){ this.listMoney=[this.listMoneyO[0]];  }
-    else this.listMoney=this.listMoneyO.filter((x:any)=>x.nombre!=this.listMoneyO[0].nombre);
+
+    if(this.classSelect=="transferencia"){
+      this.listMoney=[this.listMoneyO[0]];
+    } else {
+      this.listMoney=this.listMoneyO.filter((x:any)=>x.nombre!=this.listMoneyO[0].nombre);
+    } 
     
     if(this.classSelect!="" && (this.classSelect=="compra" || this.classSelect=="transferencia")){
       this.moneySel="Pesos";
+    } else {
+      this.moneySel="Moneda Eletronica";
     }
-    else this.moneySel="Moneda Eletronica";
-    
   }
   
   displayError(m:string):void{
@@ -108,23 +113,29 @@ export class OperationPanelComponent implements OnInit {
     let moneyPesos=this.findWallet("pesos");
     let moneyValueCurrent=this.findCurrentMoney(money);
         
-    if(this.classSelect=="venta" && this.wallet.length==0){ this.displayError("Operacion no Valida no posee fondos para Venta."); return;}
-    else if(this.classSelect=="venta" && moneySelected==undefined){ this.displayError("Operacion no Valida no posee fondos para Venta."); return;}
-    //console.log(this.wallet)
-    if(this.classSelect=="compra" && this.wallet.length==0){ this.displayError("Operacion no Valida no posee fondos para Compra."); return;}
-    
+    if(this.classSelect=="venta" && this.wallet.length==0){
+      this.displayError("Operacion no Valida no posee fondos para Venta.");
+      return;
+    } else if(this.classSelect=="venta" && moneySelected==undefined){
+      this.displayError("Operacion no Valida no posee fondos para Venta.");
+      return;
+    }
+
+    if(this.classSelect=="compra" && this.wallet.length==0){
+      this.displayError("Operacion no Valida no posee fondos para Compra.");
+      return;
+    }    
 
     let operaDestino:Operation=new Operation(this.idUsuario,idMoney,movementType,quantity,false);
-    //console.log(operaDestino);
     
     let operaOrigen:Operation=new Operation(this.idUsuario,0,0,0,false);
     
     if(this.classSelect=="transferencia"){
       this.transfer(moneySelected,operaDestino);
-    }
-    else if(this.classSelect=="compra" && moneyPesos.cantidad<(quantity)) {this.displayError("El Valor del Importe ingresado es superior"); return}
-    else if(this.classSelect=="compra" && moneyPesos.cantidad>=(quantity)){ //*moneyValueCurrent[1]
-      //console.log(moneyPesos.cantidad,(quantity/moneyValueCurrent[1]))
+    } else if(this.classSelect=="compra" && moneyPesos.cantidad<(quantity)) {
+      this.displayError("El Valor del Importe ingresado es superior");
+      return;
+    } else if(this.classSelect=="compra" && moneyPesos.cantidad>=(quantity)){
       operaDestino.cantidad= quantity/moneyValueCurrent[1];
       this.compra(moneySelected,operaDestino);
       operaOrigen.fkMoneda=moneyPesos.idMoneda;
@@ -133,9 +144,10 @@ export class OperationPanelComponent implements OnInit {
       this.venta(moneyPesos,operaOrigen);
     }
   
-   if(this.classSelect=="venta" && moneySelected.cantidad<quantity ) {this.displayError("El Valor del Importe ingresado es superior"); return}
-    else if(this.classSelect=="venta" && moneySelected.cantidad>=quantity){
-      
+    if(this.classSelect=="venta" && moneySelected.cantidad<quantity ) {
+      this.displayError("El Valor del Importe ingresado es superior");
+      return;
+    } else if(this.classSelect=="venta" && moneySelected.cantidad>=quantity){      
       operaDestino.cantidad= quantity;
       this.venta(moneySelected,operaDestino);
       operaOrigen.fkMoneda=moneyPesos.idMoneda;
@@ -146,8 +158,15 @@ export class OperationPanelComponent implements OnInit {
 
     //guardar
     await this.walletServ.post(operaDestino).subscribe(async(data:any)=>{
-      if(data==undefined) { this.displayError("Ocurrio un Error en Moneda Destino"); return;}
-      if(data.Message!=undefined) { this.displayError("Moneda Destino:"+data.Message); return;}
+      if(data==undefined) {
+        this.displayError("Ocurrio un Error en Moneda Destino");
+        return;
+      }
+
+      if(data.Message!=undefined) {
+        this.displayError("Moneda Destino:"+data.Message);
+        return;
+      }
 
       let idBilleteraDestino=data.id;
       
@@ -164,11 +183,16 @@ export class OperationPanelComponent implements OnInit {
       if(this.classSelect!="transferencia"){
         await this.walletServ.post(operaOrigen).subscribe(async(data:any)=>{
           
-          if(data==undefined) { this.displayError("Ocurrio un Error en Moneda Origen"); return;}
-          if(data.Message!=undefined) { this.displayError("Moneda Origen:"+data.Message); return;}
+          if(data==undefined) {
+            this.displayError("Ocurrio un Error en Moneda Origen");
+            return;
+          }
+          if(data.Message!=undefined) {
+            this.displayError("Moneda Origen:"+data.Message);
+            return;
+          }
 
-          if(this.classSelect=="compra"){
-      
+          if(this.classSelect=="compra"){      
             movimiento = {
               "id":0,
               "fk_billeteraMoneda_Origen": moneyPesos.idBilletera,
@@ -178,9 +202,7 @@ export class OperationPanelComponent implements OnInit {
               "fecha":"01/01/0001",
               "fk_tipoMovimiento":movementType
             };
-          }
-          else 
-          if(this.classSelect=="venta"){
+          } else if(this.classSelect=="venta"){
             movimiento = {
               "id":0,
               "fk_billeteraMoneda_Origen": idBilleteraDestino,
@@ -191,10 +213,16 @@ export class OperationPanelComponent implements OnInit {
               "fk_tipoMovimiento":movementType
             };
           }
-          //console.log("movmiento:",movimiento);
+          
           await this.operationsServ.post(movimiento).subscribe(async(data:any)=>{
-            if(data==undefined) { this.displayError("Ocurrio un Error en Movimiento"); return;}
-            if(data.Message!=undefined) { this.displayError("Movimiento:"+data.Message); return;}
+            if(data==undefined) {
+              this.displayError("Ocurrio un Error en Movimiento");
+              return;
+            }
+            if(data.Message!=undefined) {
+              this.displayError("Movimiento:"+data.Message);
+              return;
+            }
 
             this.walletResponse.emit(true);
           });
@@ -207,10 +235,8 @@ export class OperationPanelComponent implements OnInit {
             if(data.Message!=undefined) { this.displayError("Movimiento:"+data.Message); return;}
 
             this.walletResponse.emit(true);
-          });
-  
-      }       
-     
+          });  
+      }
     });
     
     this.form.get('quantity').setValue(0);
@@ -218,34 +244,36 @@ export class OperationPanelComponent implements OnInit {
   }
   
   onSubmitForm(event:Event):void{
-    event.preventDefault();
-    
+    event.preventDefault();    
     
     const idMoney:number = this.form.get('money')?.value;
     const movementType:number = this.form.get('movementType')?.value | 0;
     const quantity:number = this.form.get('quantity')?.value;
+    
+    if(movementType==0) {
+      this.displayError("Seleccione Tipo de Movimiento");
+      return;
+    }
 
+    if(idMoney==0) {
+      this.displayError("Seleccione Moneda");
+      return;
+    }
+
+    if(quantity<=0){
+      this.displayError("Ingrese Cantidad");
+      return;
+    }
     
-    
-    
-    
-    if(movementType==0) {this.displayError("Seleccione Tipo de Movimiento");return;}
-    if(idMoney==0) {this.displayError("Seleccione Moneda");return;}
-    if(quantity<=0){ this.displayError("Ingrese Cantidad");return;}
-    
-    if(Number(quantity.toFixed(6))<=0){ this.displayError("Ingrese Cantidad con menos de 6 digitos Decimales");return;}
+    if(Number(quantity.toFixed(6))<=0){
+      this.displayError("Ingrese Cantidad con menos de 6 digitos Decimales");
+      return;
+    }
     
     let moneyIndex=this.listMoney.findIndex((x:any)=> Number(x.id)==Number(idMoney));
 
-    //console.log(idMoney);
-    //console.log(this.listMoney);
-    
-    //console.log(moneyIndex);
-
-    
     const money= this.listMoney[moneyIndex]["nombre"]; 
-    //console.log(money);
-
+    
     this.onOperation(event,money,idMoney,movementType,quantity);
     
   }
@@ -256,15 +284,12 @@ export class OperationPanelComponent implements OnInit {
     const money= this.listMoney[moneyIndex]["nombre"];
     let moneyValueCurrent=this.findCurrentMoney(money);
     const quantity:number = this.form.get('quantity')?.value;
-    //console.log(moneyValueCurrent)
+
     if(this.classSelect=="compra"){
       this.valueCalc=Number((Number(quantity)/Number(moneyValueCurrent[1])).toFixed(6));
-    }
-    else 
-    if(this.classSelect=="venta"){
+    } else if(this.classSelect=="venta"){
       this.valueCalc=Number((Number(quantity)*Number(moneyValueCurrent[1])).toFixed(6));
-    }
-    else {
+    } else {
       this.valueCalc=quantity;
     }
   }

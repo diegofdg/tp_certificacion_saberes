@@ -7,15 +7,6 @@
           <div class="row row-cols-4"  >
             <div class="col" *ngFor="let element of wallet" >
               <app-section-money [money]="element"></app-section-money>
-              <!--
-              <div class="card mb-3">
-                <h5 class="card-header"><i class="bi bi-coin"></i> &nbsp;{{element.moneda}}</h5>
-                <div class="card-body">      
-                    <img src="assets/img/{{element.moneda}}.png" class="img-fluid">
-                    $ {{element.monto}}                  
-                </div>
-              </div>
-              -->
             </div>            
           </div>          
       </div>      

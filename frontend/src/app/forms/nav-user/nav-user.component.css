@@ -5,3 +5,7 @@ li{
 nav,nav ul li ul{
     background:#1B4965;    
 }
+
+#navbarDropdown.nav-link {
+    padding-top: 3.5px;
+}

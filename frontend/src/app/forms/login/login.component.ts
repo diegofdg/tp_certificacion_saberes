@@ -30,8 +30,7 @@ export class LoginComponent implements OnInit {
 
     this.loginService.login(email, password)
       .subscribe({
-        next: (responseOK: any) => {         
-          console.log(responseOK);
+        next: (responseOK: any) => {
           if(responseOK.email != ""){    
             const currentUser = {
               id: responseOK.lista[0].id,
@@ -43,10 +42,9 @@ export class LoginComponent implements OnInit {
             
             this.spinner = false;
             this.router.navigate(['/dashboard']);
-            console.log('Sesion iniciada correcta');
+
           } else {
             this.spinner = false;
-            console.log('Ocurrio error con tu email o password');  
             this.errorSession = true;       
             setTimeout(()=>{
               this.errorSession = false;
@@ -55,8 +53,7 @@ export class LoginComponent implements OnInit {
           }
           
        },
-       error: (responseFail: any) => {         
-          console.log('Ocurrio error con tu email o password');  
+       error: (responseFail: any) => {
           this.spinner = false;
           this.errorSession = true;       
           setTimeout(()=>{

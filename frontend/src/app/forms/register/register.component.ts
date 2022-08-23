@@ -67,12 +67,11 @@ export class RegisterComponent implements OnInit {
       };
 
       this.registerServ.post(datos).subscribe((data:any)=>{
-        console.log(data);
         
         if(data.status === 1){
           this.spinner = false;
+          alert('Registro correcto!!!');
           this.router.navigate(['/login']);
-          console.log('Registro correcto');          
           
         } else {
           this.errorSession = true;       
