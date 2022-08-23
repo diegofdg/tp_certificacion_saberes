@@ -23,34 +23,27 @@ namespace cryptoBackend.Controllers
             oR.lista = null;
 
             try
-            {
-                
+            {                
                 var lst = db.usuarios.Where(d => d.email == model.Email && d.password == model.Password);
                 if (lst.Count() > 0)
                 {
-                    var token = Guid.NewGuid().ToString();
-
-                    
+                    var token = Guid.NewGuid().ToString();                    
                     
                     oR.email = model.Email;
                     oR.token = token;
                     oR.lista = lst;
 
                     return oR;
-                    //return Ok(token);                    
                 }
                 else
                 {
-
                     return oR;
-                    //return NotFound();
                 }
                     
             }
             catch (Exception e)
             {
                 return oR;
-                //return NotFound();
             }
 
         }

@@ -20,8 +20,7 @@ namespace cryptoBackend.Controllers
         public Respuesta Get()
         {
             Respuesta oR = new Respuesta();
-            oR.status = 0;
-            
+            oR.status = 0;            
 
             try
             {                
@@ -35,8 +34,7 @@ namespace cryptoBackend.Controllers
                 oR.data = e;
                 oR.message = "Ocurrió un problema en el servidor.";
                 return oR;
-            }
-            
+            }            
         }
 
         // GET: api/Usuario/5
@@ -354,8 +352,7 @@ namespace cryptoBackend.Controllers
                     oR.status = 1;
                     oR.data = usu;
                     oR.message = "Los datos fueron actualizados exitosamente";
-                    return oR;
-                    
+                    return oR;                    
                 }
             }
             catch (Exception e)

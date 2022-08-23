@@ -38,7 +38,6 @@ namespace cryptoBackend.Controllers
             billeterasMonedas billetera = new billeterasMonedas();
             if (operacion == null) return BadRequest("Problemas con el envio de Datos");
             if (operacion.FkUsuario <= 0) return BadRequest("IdUsuario incorrecto");
-            //if (operacion.FkMoneda <= 0 && operacion.Destino==true) return NotFound();
             if (operacion.TipoMovimiento <= 0)  return BadRequest("Tipo de Movimiento Incorrecto");
             if (operacion.Cantidad < -1)  return BadRequest("Cantidad Incorrecta");
 
